@@ -66,9 +66,9 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2016&#x2f;07&#x2f;14 12&#x3a;47&#x3a;27.380</created_date>
+  <created_date>2017&#x2f;02&#x2f;24 13&#x3a;35&#x3a;37.636</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2016&#x2f;07&#x2f;14 12&#x3a;47&#x3a;27.380</modified_date>
+  <modified_date>2017&#x2f;02&#x2f;24 13&#x3a;35&#x3a;37.636</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -76,11 +76,11 @@
   </notepads>
   <connection>
     <name>mysql</name>
-    <server>localhost</server>
+    <server/>
     <type>MYSQL</type>
     <access>JNDI</access>
     <database>MysqlOperational</database>
-    <port>3306</port>
+    <port>1521</port>
     <username/>
     <password>Encrypted </password>
     <servername/>
@@ -92,7 +92,7 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
-      <attribute><code>PORT_NUMBER</code><attribute>3306</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1521</attribute></attribute>
       <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
@@ -103,11 +103,11 @@
   </connection>
   <connection>
     <name>vertica</name>
-    <server>localhost</server>
-    <type>VERTICA5</type>
+    <server/>
+    <type>VERTICA</type>
     <access>JNDI</access>
-    <database>VerticaTuenti</database>
-    <port>5433</port>
+    <database>Vertica</database>
+    <port>1521</port>
     <username/>
     <password>Encrypted </password>
     <servername/>
@@ -117,7 +117,7 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
-      <attribute><code>PORT_NUMBER</code><attribute>5433</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>1521</attribute></attribute>
       <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
@@ -126,7 +126,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Table input</from><to>Table output</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table input</from><to>Vertica Bulk Loader</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Table input</name>
@@ -140,23 +140,23 @@
            <schema_name/>
            </partitioning>
     <connection>mysql</connection>
-    <sql>SELECT &#xa;subscription_id,&#xa;duration,&#xa;event_time&#xa;FROM jsc_telco_events_voice</sql>
+    <sql>&#x24;&#x7b;getVoice&#x7d;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
+    <variables_active>Y</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>128</xloc>
-      <yloc>80</yloc>
+      <xloc>288</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Table output</name>
-    <type>TableOutput</type>
+    <name>Vertica Bulk Loader</name>
+    <type>VerticaBulkLoader</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -168,38 +168,30 @@
     <connection>vertica</connection>
     <schema>staging</schema>
     <table>subscription_voice_by_day</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
     <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
     <fields>
         <field>
           <column_name>subscription_id</column_name>
           <stream_name>subscription_id</stream_name>
         </field>
         <field>
-          <column_name>total_minutes</column_name>
-          <stream_name>duration</stream_name>
-        </field>
-        <field>
           <column_name>time</column_name>
           <stream_name>event_time</stream_name>
         </field>
+        <field>
+          <column_name>total_minutes</column_name>
+          <stream_name>duration</stream_name>
+        </field>
     </fields>
+    <exceptions_filename/>
+    <rejected_data_filename/>
+    <abort_on_error>Y</abort_on_error>
+    <direct>Y</direct>
+    <stream_name/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>304</xloc>
-      <yloc>80</yloc>
+      <xloc>512</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

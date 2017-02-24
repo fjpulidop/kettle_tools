@@ -1,0 +1,2 @@
+SELECT subscription_id,duration,event_time from jsc_telco_events_voice
+

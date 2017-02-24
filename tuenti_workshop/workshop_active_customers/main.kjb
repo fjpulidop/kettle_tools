@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>main</name>
+  <name>workshop_active_customers&#x3a; main</name>
     <description/>
     <extended_description/>
     <job_version/>
@@ -57,8 +57,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>101</xloc>
-      <yloc>190</yloc>
+      <xloc>32</xloc>
+      <yloc>32</yloc>
       </entry>
     <entry>
       <name>bootstrap</name>
@@ -66,7 +66,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;BI_SOLUTION_PATH&#x7d;&#x2f;etls&#x2f;examples&#x2f;..&#x2f;..&#x2f;common&#x2f;bootstrap.kjb</filename>
+      <filename>&#x24;&#x7b;BI_SOLUTION_PATH&#x7d;&#x2f;etls&#x2f;workshop_active_customers&#x2f;..&#x2f;..&#x2f;common&#x2f;bootstrap.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -86,13 +86,13 @@
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
             <parameter>            <name>ETL_MAIN_PATH</name>
             <stream_name/>
-            <value>&#x24;&#x7b;BI_SOLUTION_PATH&#x7d;&#x2f;etls&#x2f;examples</value>
+            <value>&#x24;&#x7b;BI_SOLUTION_PATH&#x7d;&#x2f;etls&#x2f;workshop_active_customers</value>
             </parameter>      </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>301</xloc>
-      <yloc>190</yloc>
+      <xloc>256</xloc>
+      <yloc>32</yloc>
       </entry>
     <entry>
       <name>Success</name>
@@ -101,8 +101,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>862</xloc>
-      <yloc>190</yloc>
+      <xloc>864</xloc>
+      <yloc>32</yloc>
       </entry>
     <entry>
       <name>successful</name>
@@ -110,7 +110,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;BI_SOLUTION_PATH&#x7d;&#x2f;etls&#x2f;examples&#x2f;..&#x2f;..&#x2f;common&#x2f;successful.kjb</filename>
+      <filename>&#x24;&#x7b;BI_SOLUTION_PATH&#x7d;&#x2f;etls&#x2f;workshop_active_customers&#x2f;..&#x2f;..&#x2f;common&#x2f;successful.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -132,8 +132,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>672</xloc>
-      <yloc>190</yloc>
+      <xloc>688</xloc>
+      <yloc>32</yloc>
       </entry>
     <entry>
       <name>failure</name>
@@ -141,7 +141,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;BI_SOLUTION_PATH&#x7d;&#x2f;etls&#x2f;examples&#x2f;..&#x2f;..&#x2f;common&#x2f;failure.kjb</filename>
+      <filename>&#x24;&#x7b;BI_SOLUTION_PATH&#x7d;&#x2f;etls&#x2f;workshop_active_customers&#x2f;..&#x2f;..&#x2f;common&#x2f;failure.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -151,7 +151,7 @@
       <logext/>
       <add_date>N</add_date>
       <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
+      <loglevel>Debug</loglevel>
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
@@ -163,8 +163,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>476</xloc>
-      <yloc>314</yloc>
+      <xloc>480</xloc>
+      <yloc>160</yloc>
       </entry>
     <entry>
       <name>Abort job</name>
@@ -174,8 +174,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>476</xloc>
-      <yloc>452</yloc>
+      <xloc>480</xloc>
+      <yloc>288</yloc>
       </entry>
     <entry>
       <name>workshopActiveCustomers</name>
@@ -206,10 +206,19 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>480</xloc>
-      <yloc>192</yloc>
+      <yloc>32</yloc>
       </entry>
   </entries>
   <hops>
+    <hop>
+      <from>successful</from>
+      <to>Success</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
     <hop>
       <from>START</from>
       <to>bootstrap</to>
@@ -222,15 +231,6 @@
     <hop>
       <from>failure</from>
       <to>Abort job</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>successful</from>
-      <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -266,27 +266,6 @@
     </hop>
   </hops>
   <notepads>
-    <notepad>
-      <note>main&#xa;---------------------&#xa;</note>
-      <xloc>0</xloc>
-      <yloc>0</yloc>
-      <width>118</width>
-      <heigth>58</heigth>
-      <fontname>.Helvetica Neue DeskInterface</fontname>
-      <fontsize>13</fontsize>
-      <fontbold>N</fontbold>
-      <fontitalic>N</fontitalic>
-      <fontcolorred>0</fontcolorred>
-      <fontcolorgreen>0</fontcolorgreen>
-      <fontcolorblue>0</fontcolorblue>
-      <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>205</backgroundcolorgreen>
-      <backgroundcolorblue>112</backgroundcolorblue>
-      <bordercolorred>100</bordercolorred>
-      <bordercolorgreen>100</bordercolorgreen>
-      <bordercolorblue>100</bordercolorblue>
-      <drawshadow>Y</drawshadow>
-    </notepad>
   </notepads>
 
 </job>
